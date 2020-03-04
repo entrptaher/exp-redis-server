@@ -1,11 +1,14 @@
-version: '3.7'
+# export $(cat .env | xargs)
+# docker-compose up -d
+
+version: "3.7"
 services:
-    redis:
-        image: redis:latest
-        command: redis-server --requirepass ${REDIS_PASS}
-        ports:
-        - ${REDIS_PORT}:6379
-        volumes:
-        - ./persistence/redis:/data
-        hostname: redis
-        restart: always
+  custom-redis:
+    image: redis:5-alpine
+    command: redis-server --requirepass ${REDIS_PASS} --dir /data
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - ./persistence/redis:/data
+    hostname: redis
+    restart: always
